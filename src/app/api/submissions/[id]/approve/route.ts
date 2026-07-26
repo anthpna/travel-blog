@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { toSlug } from '@/lib/slugify'
+import { promoteToPublicBucket } from '@/lib/image-upload'
 import { revalidatePath } from 'next/cache'
 import { generateHTML } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
@@ -43,6 +44,19 @@ export async function POST(
   const authorId = session.user!.id as string
   if (!authorId) return NextResponse.json({ error: 'Session không hợp lệ' }, { status: 401 })
 
+  // Chuyen anh cover tu bucket private (submission-images) sang public (post-images).
+  // Post da PUBLISHED nen anh cover phai public URL, khong the la storage:// noi bo.
+  let coverImage: string | null = null
+  if (submission.coverImage) {
+    try {
+      coverImage = await promoteToPublicBucket(submission.coverImage)
+    } catch (err) {
+      // Khong chan viec duyet bai neu chuyen anh loi — chi bo cover, log lai de trace
+      console.error('[approve-submission] chuyen anh cover that bai', err)
+      coverImage = null
+    }
+  }
+
   try {
     // Atomic transaction: tạo Post + cập nhật Submission status
     const [post] = await prisma.$transaction([
@@ -55,7 +69,7 @@ export async function POST(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           contentVi: submission.contentVi as any,
           contentHtmlVi,
-          coverImage: submission.coverImage ?? null,
+          coverImage,
           status: 'PUBLISHED',
           featured: false,
           readingTime,
