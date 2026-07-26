@@ -1,0 +1,26 @@
+# Khong dua vao build context (giam kich thuoc + tranh lo secret)
+node_modules
+.next
+.git
+.github
+.vercel
+npm-debug.log*
+
+# Env & secret — KHONG bao gio copy vao image
+.env
+.env.*
+*.bak
+
+# Tai lieu, tooling, scratch
+docs
+.claude
+.agents
+skills-lock.json
+*.md
+ui_temp.png
+plan.txt
+plan-ui.md
+test-report.md
+
+# Anh upload local (production dung Supabase Storage)
+public/uploads

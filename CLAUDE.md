@@ -12,6 +12,7 @@ Kế hoạch chi tiết: [docs/plan-blog-trip.md](docs/plan-blog-trip.md).
 - [docs/status_logs.md](docs/status_logs.md) — Trạng thái phát triển, checklist theo phase, bug fixes, công việc tiếp theo
 - [docs/testcase_logs.md](docs/testcase_logs.md) — Kết quả QA theo phase, FAIL/SKIP analysis
 - [docs/deploy.md](docs/deploy.md) — Kế hoạch và các bước deploy lên internet, phân tích chi phí
+- [docs/usage-guide.md](docs/usage-guide.md) — Hướng dẫn sử dụng: seed admin (CLI/env), build & chạy container Docker
 
 ---
 

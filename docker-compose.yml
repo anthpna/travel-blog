@@ -1,0 +1,19 @@
+# Docker Compose cho blog-trip — build + run container production.
+# Tham so lay tu file .env.docker (tu tao, KHONG commit — xem .gitignore).
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Bien build-time (NEXT_PUBLIC_* inline vao bundle; DATABASE_URL cho SSG)
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        DATABASE_URL: ${DATABASE_URL}
+    image: blog-trip:latest
+    ports:
+      - "3000:3000"
+    # Bien runtime (API routes, NextAuth, Supabase Storage server-side)
+    env_file:
+      - .env.docker
+    restart: unless-stopped
