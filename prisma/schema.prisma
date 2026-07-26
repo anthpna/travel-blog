@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  SPAM
+}
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  posts        Post[]
+}
+
+model Destination {
+  id          String  @id @default(cuid())
+  nameVi      String
+  nameEn      String
+  slug        String  @unique
+  country     String
+  countryCode String
+  lat         Float
+  lng         Float
+  coverImage  String?
+  posts       Post[]
+}
+
+model Series {
+  id          String   @id @default(cuid())
+  titleVi     String
+  titleEn     String?
+  slug        String   @unique
+  description String?
+  coverImage  String?
+  createdAt   DateTime @default(now())
+  posts       Post[]
+}
+
+model Post {
+  id            String       @id @default(cuid())
+  titleVi       String
+  titleEn       String?
+  slug          String       @unique
+  excerptVi     String
+  excerptEn     String?
+  contentVi     Json
+  contentHtmlVi String
+  contentEn     Json?
+  contentHtmlEn String?
+  coverImage    String?
+  status        PostStatus   @default(DRAFT)
+  featured      Boolean      @default(false)
+  readingTime   Int          @default(0)
+  views         Int          @default(0)
+  author        User         @relation(fields: [authorId], references: [id])
+  authorId      String
+  destination   Destination? @relation(fields: [destinationId], references: [id])
+  destinationId String?
+  series        Series?      @relation(fields: [seriesId], references: [id])
+  seriesId      String?
+  seriesOrder   Int?
+  tags          Tag[]        @relation("PostTags")
+  comments      Comment[]
+  publishedAt   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@index([destinationId])
+  @@index([seriesId])
+}
+
+model Tag {
+  id     String  @id @default(cuid())
+  nameVi String
+  nameEn String?
+  slug   String  @unique
+  posts  Post[]  @relation("PostTags")
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  name      String
+  email     String
+  content   String
+  status    CommentStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+
+  @@index([postId, status])
+}
+
+model Submission {
+  id            String           @id @default(cuid())
+  titleVi       String
+  titleEn       String?
+  contentVi     Json
+  contentHtmlVi String
+  excerptVi     String?
+  coverImage    String?
+  authorName    String
+  authorEmail   String
+  status        SubmissionStatus @default(PENDING)
+  adminNotes    String?
+  createdAt     DateTime         @default(now())
+  reviewedAt    DateTime?
+  postId        String?          @unique
+}
+
+model Subscriber {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  confirmedAt DateTime?
+  createdAt   DateTime  @default(now())
+}
