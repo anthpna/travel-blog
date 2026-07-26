@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const roboto = Roboto({
   subsets: ['latin', 'vietnamese'],
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
           {children}
         </LanguageProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
