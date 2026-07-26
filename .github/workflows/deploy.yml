@@ -1,16 +1,17 @@
-# Deploy - Tu dong deploy blog-trip len Vercel Production
-# Kich hoat: moi khi co thay doi code push vao nhanh main.
-# Luong: quality gate (lint + typecheck) PASS -> build + deploy len Vercel production.
+# Deploy - Deploy blog-trip len Vercel Production (chay TAY)
+# Kich hoat: chay thu cong tu tab Actions (workflow_dispatch).
+#
+# LUU Y: Mac dinh du an dung Vercel NATIVE git deploy (Vercel tu build khi push main),
+# nen workflow nay de che do chay tay de TRANH deploy trung. Neu muon Actions kiem soat
+# hoan toan viec deploy: (1) doi trigger sang 'push: branches: [main]', (2) them 3 secret
+# VERCEL_TOKEN/ORG_ID/PROJECT_ID, (3) tat native deploy bang git.deploymentEnabled trong vercel.json.
 #
 # Bao mat: dung 'vercel pull' de Vercel tu cap env vars (DATABASE_URL, SUPABASE keys,
-# NEXTAUTH_SECRET...) da cau hinh san tren Vercel Dashboard. GitHub CHI can 3 secret cua
-# Vercel ben duoi, KHONG luu secret database trong GitHub.
+# NEXTAUTH_SECRET...). GitHub CHI can 3 secret cua Vercel, KHONG luu secret database.
 name: Deploy (Vercel Production)
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read

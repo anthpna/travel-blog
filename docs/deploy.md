@@ -127,18 +127,19 @@ WITH CHECK (bucket_id = 'submission-images' AND auth.role() = 'service_role');
 
 Lấy các giá trị từ Supabase Dashboard → Settings → API:
 
-| Variable | Giá trị |
-|---|---|
-| `DATABASE_URL` | `postgresql://postgres.[id]:[pass]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres` |
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://hnhhjfdfvyxijawooxqw.supabase.co` |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable key từ Supabase Dashboard |
-| `SUPABASE_SERVICE_ROLE_KEY` | Secret key từ Supabase Dashboard |
-| `NEXTAUTH_SECRET` | Generate mới: `openssl rand -base64 32` |
-| `NEXTAUTH_URL` | *(để trống trước, điền sau khi Vercel cấp domain)* |
-| `ADMIN_EMAIL` | `anthp.na@gmail.com` |
-| `RESEND_API_KEY` | *(để trống nếu chưa dùng email)* |
-| `SEED_ADMIN_EMAIL` | `admin@blog-trip.local` |
-| `SEED_ADMIN_PASSWORD` | *(mật khẩu admin)* |
+> ⚠️ **KHONG dan secret that (mat khau DB, service_role key, NEXTAUTH_SECRET) vao file nay** — file duoc git track. Chi dan truc tiep vao Vercel Dashboard. Cot "Gia tri" duoi day dung placeholder/ghi chu.
+
+| Variable | Giá trị điền vào Vercel | Trạng thái |
+|---|---|---|
+| `DATABASE_URL` | **Transaction Pooler (port 6543)**: `postgresql://postgres.jvwxysbequdftyxqixar:<PASSWORD>@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true` — thay `<PASSWORD>` = mat khau DB da encode (`@`→`%40`). ⚠️ Vercel serverless PHAI dung pooler, KHONG dung ket noi truc tiep `db.<ref>...:5432`. | ⚠️ Sua lai |
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://jvwxysbequdftyxqixar.supabase.co` | ✅ |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_7v9Z4T-Bzmb0jX3U9NIs5g_lZmGuQmO` (publishable — public-safe) | ✅ |
+| `SUPABASE_SERVICE_ROLE_KEY` | 🔒 Secret key (`sb_secret_...`) — dan truc tiep vao Vercel, khong ghi vao file | ✅ (da co) |
+| `NEXTAUTH_SECRET` | 🔒 Da sinh moi — dan truc tiep vao Vercel, khong ghi vao file | ✅ |
+| `NEXTAUTH_URL` | *(để trống trước, điền sau khi Vercel cấp domain)* | ⏳ Sau deploy |
+| `ADMIN_EMAIL` | `anthp.na@gmail.com` | ✅ |
+| `RESEND_API_KEY` | *(để trống nếu chưa dùng email)* | ⏳ Tuỳ chọn |
+| `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` | **KHONG can them vao Vercel** — admin da duoc seed tu local (B2 xong) | ✅ Bo qua |
 
 ---
 

@@ -29,6 +29,7 @@ yarn-error.log*
 .env
 .env*.local
 .env.production
+*.bak
 
 # uploaded images (local dev fallback - production dung Supabase Storage)
 /public/uploads/
@@ -50,3 +51,4 @@ next-env.d.ts
 /plan.txt
 /plan-ui.md
 /test-report.md
+/docs/build-vercel-log.txt

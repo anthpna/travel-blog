@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, type Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
@@ -15,7 +15,8 @@ interface TiptapEditorProps {
   viOnly?: boolean
 }
 
-function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
+// editor co the la null luc render dau/SSR nen prop nhan Editor | null, guard ben trong
+function Toolbar({ editor }: { editor: Editor | null }) {
   if (!editor) return null
 
   const btn = (active: boolean, action: () => void, label: string) => (
@@ -50,7 +51,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
   )
 }
 
-function ImageButton({ editor }: { editor: ReturnType<typeof useEditor> }) {
+function ImageButton({ editor }: { editor: Editor | null }) {
   const upload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !editor) return
