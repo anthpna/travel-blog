@@ -1,0 +1,71 @@
+# Deploy - Tu dong deploy blog-trip len Vercel Production
+# Kich hoat: moi khi co thay doi code push vao nhanh main.
+# Luong: quality gate (lint + typecheck) PASS -> build + deploy len Vercel production.
+#
+# Bao mat: dung 'vercel pull' de Vercel tu cap env vars (DATABASE_URL, SUPABASE keys,
+# NEXTAUTH_SECRET...) da cau hinh san tren Vercel Dashboard. GitHub CHI can 3 secret cua
+# Vercel ben duoi, KHONG luu secret database trong GitHub.
+name: Deploy (Vercel Production)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+# Chi cho 1 deploy production chay tai mot thoi diem, khong huy deploy dang chay
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+# vercel pull/build/deploy doc 2 bien nay de xac dinh dung project
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  # Buoc 1: quality gate - chan deploy neu code loi
+  quality:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Cai dependencies
+        run: npm ci
+      - name: ESLint
+        run: npm run lint
+      - name: Type check
+        run: npx tsc --noEmit
+
+  # Buoc 2: chi deploy khi quality gate PASS
+  deploy:
+    name: Build + Deploy Production
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Cai Vercel CLI
+        run: npm i -g vercel@latest
+
+      # Keo cau hinh + env production tu Vercel ve runner
+      - name: Vercel pull (production env)
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Build bang chinh env cua Vercel; postinstall se chay prisma generate
+      - name: Vercel build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Deploy artifact da build san (prebuilt) len production
+      - name: Vercel deploy (prebuilt, prod)
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

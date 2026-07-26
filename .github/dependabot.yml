@@ -1,0 +1,22 @@
+# Dependabot - tu dong tao PR cap nhat dependency & GitHub Actions
+# Muc dich: va lo hong bao mat trong thu vien (OWASP A06 - Vulnerable Components).
+version: 2
+updates:
+  # Cap nhat package npm
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Gom cac ban minor/patch vao 1 PR cho de review
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  # Cap nhat phien ban cac GitHub Actions dung trong workflow
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

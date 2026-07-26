@@ -1,0 +1,45 @@
+# CI - Quality gate cho blog-trip
+# Chay kiem tra chat luong tren moi Pull Request va push nhanh khac main.
+# Muc dich: chan loi lint / type / lo secret truoc khi merge vao main.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main   # main da co pipeline Deploy rieng (deploy.yml), tranh chay trung
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint + Typecheck + Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # can full history de gitleaks quet toan bo commit
+
+      - name: Cai dat Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # npm ci se tu chay postinstall -> prisma generate (sinh Prisma Client cho typecheck)
+      - name: Cai dependencies
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Type check (khong emit)
+        run: npx tsc --noEmit
+
+      # Quet secret bi lo trong source/commit (defense-in-depth ngoai .gitignore)
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
