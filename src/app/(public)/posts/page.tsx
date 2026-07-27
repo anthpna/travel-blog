@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 import PostGrid from '@/components/blog/PostGrid'
 import PostsFiltersClient from './PostsFiltersClient'
 import prisma from '@/lib/prisma'
+import { SITE_NAME } from '@/config/site'
 
 export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Bài viết',
-  description: 'Tất cả bài viết du lịch từ Blog Trip.',
+  description: `Tất cả bài viết du lịch từ ${SITE_NAME}.`,
 }
 
 interface PageProps {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 
@@ -13,6 +13,8 @@ type Submission = {
   contentHtmlVi: string
   excerptVi: string | null
   coverImage: string | null
+  /** Signed URL do API sinh - dung de HIEN THI (coverImage co the la ref `storage://...`) */
+  coverImageUrl: string | null
   authorName: string
   authorEmail: string
   status: 'PENDING' | 'APPROVED' | 'REJECTED'
@@ -130,7 +132,8 @@ export default function SubmissionDetailPage() {
           {/* Cover image */}
           {sub.coverImage && (
             <div className="relative w-full h-56 rounded-xl overflow-hidden border border-gray-200">
-              <Image src={sub.coverImage} alt="Cover" fill className="object-cover" />
+              {/* Dung coverImageUrl (signed) chu khong phai coverImage (ref private bucket) */}
+              <SafeImage src={sub.coverImageUrl} alt="Cover" fill sizes="(max-width: 1024px) 100vw, 640px" className="object-cover" />
             </div>
           )}
 

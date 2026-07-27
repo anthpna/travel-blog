@@ -1,3 +1,5 @@
+import { SITE_NAME } from '@/config/site'
+
 export interface Translations {
   nav: {
     home: string
@@ -128,7 +130,7 @@ const vi: Translations = {
   about: {
     title: 'Về tác giả',
     subtitle: 'Phan Thanh An — sinh năm 1993',
-    bio: 'Xin chào! Mình là Phan Thanh An, sinh năm 1993 tại Việt Nam. Blog Trip là nơi mình lưu giữ những hành trình, cảm xúc và kỷ niệm đáng nhớ trong những chuyến đi. Mình tin rằng du lịch không chỉ là đến nơi đẹp — mà là khám phá bản thân, hiểu thêm về thế giới và kết nối với con người.',
+    bio: `Xin chào! Mình là Phan Thanh An, sinh năm 1993 tại Việt Nam. ${SITE_NAME} là nơi mình lưu giữ những hành trình, cảm xúc và kỷ niệm đáng nhớ trong những chuyến đi. Mình tin rằng du lịch không chỉ là đến nơi đẹp — mà là khám phá bản thân, hiểu thêm về thế giới và kết nối với con người.`,
     statsTitle: 'Hành trình của mình',
     statCountries: 'Quốc gia đã đến',
     statPosts: 'Bài viết',
@@ -185,7 +187,7 @@ const vi: Translations = {
   },
   submit: {
     title: 'Gửi bài viết',
-    description: 'Chia sẻ hành trình của bạn với cộng đồng Blog Trip. Bài viết sẽ được admin xem xét và duyệt trước khi xuất bản.',
+    description: `Chia sẻ hành trình của bạn với cộng đồng ${SITE_NAME}. Bài viết sẽ được admin xem xét và duyệt trước khi xuất bản.`,
     sectionAuthor: 'Thông tin tác giả',
     fieldName: 'Họ tên',
     sectionPost: 'Bài viết',

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import prisma from '@/lib/prisma'
 import PostCard from '@/components/blog/PostCard'
 import type { DestinationPin } from '@/components/map/DestinationMap'
+import { SITE_NAME } from '@/config/site'
 
 export const revalidate = 300
 
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const dest = await getDestination(params.slug)
   if (!dest) notFound()
   return {
-    title: `${dest.nameVi} — Điểm đến | Blog Trip`,
+    title: `${dest.nameVi} — Điểm đến | ${SITE_NAME}`,
     description: `Các bài viết về ${dest.nameVi} (${dest.country})`,
   }
 }

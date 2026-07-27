@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
 import DestinationsClient from './DestinationsClient'
+import { SITE_NAME } from '@/config/site'
 
 export const revalidate = 300
 
 export const metadata: Metadata = {
-  title: 'Destinations — Blog Trip',
+  title: `Destinations — ${SITE_NAME}`,
   description: 'Explore the places we have been on an interactive map.',
 }
 

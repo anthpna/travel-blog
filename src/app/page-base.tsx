@@ -48,7 +48,7 @@ export default async function HomePage() {
             )}
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-24 md:py-36">
               <p className="text-sm font-semibold uppercase tracking-widest text-amber-400 mb-3">
-                Blog Trip · Phan Thanh An
+                Travel Blog · Phan Thanh An
               </p>
               <h1 className="text-3xl md:text-5xl font-bold leading-tight max-w-2xl mb-6">
                 {heroPost.titleVi}

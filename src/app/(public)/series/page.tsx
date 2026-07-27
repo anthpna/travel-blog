@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
 import SeriesListClient from './SeriesListClient'
+import { SITE_NAME } from '@/config/site'
 
 export const revalidate = 300
 
 export const metadata: Metadata = {
-  title: 'Travel Series — Blog Trip',
-  description: 'Multi-part travel journeys from Blog Trip.',
+  title: `Travel Series — ${SITE_NAME}`,
+  description: `Multi-part travel journeys from ${SITE_NAME}.`,
 }
 
 export default async function SeriesListPage() {

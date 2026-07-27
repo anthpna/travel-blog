@@ -1,5 +1,8 @@
 # Kế hoạch Deploy blog-trip lên Internet
 
+> **Tài liệu này là kế hoạch setup LẦN ĐẦU** (tạo Supabase, tạo project Vercel, cấu hình env vars).
+> Hệ thống đã chạy rồi và chỉ cần đẩy bản mới → dùng [push-deploy-guide.md](push-deploy-guide.md).
+
 ## Context
 
 Dự án blog-trip là travel blog song ngữ Việt/Anh, build với Next.js 14 App Router, PostgreSQL (Prisma), Supabase Storage, và NextAuth v5. Code đã hoàn thiện 97% (63/65 tính năng), `npm run build` sạch 0 lỗi. Hiện tại chưa deploy vì 3 blocker: migration Supabase chưa chạy, storage bucket chưa tạo, chưa push GitHub.

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import type { JSONContent } from '@tiptap/react'
 import { generateHTML } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
@@ -22,7 +22,10 @@ export default function SubmitForm() {
   const [authorEmail, setAuthorEmail] = useState('')
   const [titleVi, setTitleVi] = useState('')
   const [excerptVi, setExcerptVi] = useState('')
+  // `coverImage` = gia tri LUU vao DB (co the la ref `storage://...` cua bucket private)
+  // `coverPreview` = URL HIEN THI (signed URL do API tra ve) - hai gia tri co the khac nhau
   const [coverImage, setCoverImage] = useState<string | null>(null)
+  const [coverPreview, setCoverPreview] = useState<string | null>(null)
   const [coverUploading, setCoverUploading] = useState(false)
   const [contentVi, setContentVi] = useState<JSONContent | null>(null)
   const [formState, setFormState] = useState<FormState>('idle')
@@ -41,8 +44,9 @@ export default function SubmitForm() {
     form.append('bucket', 'submission-images')
     const res = await fetch('/api/upload', { method: 'POST', body: form })
     if (res.ok) {
-      const { url } = await res.json()
+      const { url, previewUrl } = await res.json()
       setCoverImage(url)
+      setCoverPreview(previewUrl ?? url)
     }
     setCoverUploading(false)
     e.target.value = ''
@@ -97,7 +101,7 @@ export default function SubmitForm() {
           onClick={() => {
             setFormState('idle')
             setAuthorName(''); setAuthorEmail(''); setTitleVi('')
-            setExcerptVi(''); setCoverImage(null); setContentVi(null)
+            setExcerptVi(''); setCoverImage(null); setCoverPreview(null); setContentVi(null)
           }}
           className="mt-5 text-sm text-green-700 underline hover:no-underline"
         >
@@ -193,10 +197,10 @@ export default function SubmitForm() {
             </label>
             {coverImage ? (
               <div className="relative w-full h-44 rounded-lg overflow-hidden border border-gray-200 group">
-                <Image src={coverImage} alt="Cover" fill className="object-cover" />
+                <SafeImage src={coverPreview} alt="Cover" fill sizes="(max-width: 768px) 100vw, 640px" className="object-cover" />
                 <button
                   type="button"
-                  onClick={() => setCoverImage(null)}
+                  onClick={() => { setCoverImage(null); setCoverPreview(null) }}
                   className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   {t.submit.coverDelete}

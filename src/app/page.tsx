@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import PostGrid from '@/components/blog/PostGrid'
 import prisma from '@/lib/prisma'
+import { SITE_NAME, SITE_AUTHOR } from '@/config/site'
 
 export const revalidate = 60
 
@@ -38,17 +39,18 @@ export default async function HomePage() {
         {heroPost && (
           <section className="relative bg-gray-900 text-white overflow-hidden">
             {heroPost.coverImage && (
-              <Image
+              <SafeImage
                 src={heroPost.coverImage}
                 alt={heroPost.titleVi}
                 fill
+                sizes="100vw"
                 className="object-cover opacity-40"
                 priority
               />
             )}
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-24 md:py-36">
               <p className="text-sm font-semibold uppercase tracking-widest text-amber-400 mb-3">
-                Blog Trip · Phan Thanh An
+                {SITE_NAME} · {SITE_AUTHOR}
               </p>
               <h1 className="text-3xl md:text-5xl font-bold leading-tight max-w-2xl mb-6">
                 {heroPost.titleVi}

@@ -1,4 +1,6 @@
 import { Resend } from 'resend'
+// Ten hien thi nguoi gui + tien to subject lay tu config chung
+import { SITE_EMAIL_FROM, SITE_EMAIL_SUBJECT_PREFIX } from '@/config/site'
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -19,9 +21,9 @@ export async function notifyAdminComment({
 
   try {
     await resend.emails.send({
-      from: 'Blog-Trip <onboarding@resend.dev>',
+      from: SITE_EMAIL_FROM,
       to: process.env.ADMIN_EMAIL,
-      subject: `[Blog-Trip] Bình luận mới: ${postTitle}`,
+      subject: `${SITE_EMAIL_SUBJECT_PREFIX} Bình luận mới: ${postTitle}`,
       html: `
         <h2 style="margin:0 0 16px">Có bình luận mới cần duyệt</h2>
         <p><strong>Bài viết:</strong> ${postTitle}</p>
@@ -53,9 +55,9 @@ export async function notifyAdminSubmission({
 
   try {
     await resend.emails.send({
-      from: 'Blog-Trip <onboarding@resend.dev>',
+      from: SITE_EMAIL_FROM,
       to: process.env.ADMIN_EMAIL,
-      subject: `[Blog-Trip] Bài gửi mới: ${titleVi}`,
+      subject: `${SITE_EMAIL_SUBJECT_PREFIX} Bài gửi mới: ${titleVi}`,
       html: `
         <h2 style="margin:0 0 16px">Có bài viết mới cần duyệt</h2>
         <p><strong>Tiêu đề:</strong> ${titleVi}</p>

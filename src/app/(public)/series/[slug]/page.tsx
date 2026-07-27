@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import prisma from '@/lib/prisma'
 
 export const revalidate = 300
@@ -51,7 +51,7 @@ export default async function SeriesDetailPage({ params }: PageProps) {
 
       {series.coverImage && (
         <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-8 shadow-md">
-          <Image src={series.coverImage} alt={series.titleVi} fill className="object-cover" priority />
+          <SafeImage src={series.coverImage} alt={series.titleVi} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" priority />
         </div>
       )}
 
@@ -81,7 +81,7 @@ export default async function SeriesDetailPage({ params }: PageProps) {
                   <div className="flex items-start gap-3">
                     {post.coverImage && (
                       <div className="relative w-16 h-12 rounded-lg overflow-hidden shrink-0 mt-1">
-                        <Image src={post.coverImage} alt={post.titleVi} fill className="object-cover" />
+                        <SafeImage src={post.coverImage} alt={post.titleVi} fill sizes="64px" className="object-cover" />
                       </div>
                     )}
                     <div>

@@ -7,7 +7,7 @@ export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Bài viết',
-  description: 'Tất cả bài viết du lịch từ Blog Trip.',
+  description: 'Tất cả bài viết du lịch từ Travel Blog.',
 }
 
 interface PageProps {

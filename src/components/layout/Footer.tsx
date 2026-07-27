@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useLang } from '@/contexts/LanguageContext'
+import { SITE_NAME } from '@/config/site'
 
 export default function Footer() {
   const { t } = useLang()
@@ -31,7 +32,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <span className="font-bold text-lg text-gray-900">Blog Trip</span>
+            <span className="font-bold text-lg text-gray-900">{SITE_NAME}</span>
             <p className="mt-2 text-sm text-gray-500">{t.home.heroSubtitle}</p>
           </div>
 
@@ -84,7 +85,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
-          <span>© {new Date().getFullYear()} Blog Trip. {t.footer.rights}</span>
+          <span>© {new Date().getFullYear()} {SITE_NAME}. {t.footer.rights}</span>
           <span>{t.footer.madeBy}</span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import type { Translations } from './vi'
+import { SITE_NAME } from '@/config/site'
 
 const en: Translations = {
   nav: {
@@ -13,7 +14,7 @@ const en: Translations = {
   about: {
     title: 'About',
     subtitle: 'Phan Thanh An — born 1993',
-    bio: "Hello! I'm Phan Thanh An, born in 1993 in Vietnam. Blog Trip is where I keep my journeys, emotions, and memorable moments from my travels. I believe travel is not just about visiting beautiful places — it's about discovering yourself, understanding the world, and connecting with people.",
+    bio: `Hello! I'm Phan Thanh An, born in 1993 in Vietnam. ${SITE_NAME} is where I keep my journeys, emotions, and memorable moments from my travels. I believe travel is not just about visiting beautiful places — it's about discovering yourself, understanding the world, and connecting with people.`,
     statsTitle: 'My Journey',
     statCountries: 'Countries visited',
     statPosts: 'Posts written',
@@ -70,7 +71,7 @@ const en: Translations = {
   },
   submit: {
     title: 'Submit a Post',
-    description: 'Share your journey with the Blog Trip community. Posts will be reviewed and approved by admin before publishing.',
+    description: `Share your journey with the ${SITE_NAME} community. Posts will be reviewed and approved by admin before publishing.`,
     sectionAuthor: 'Author Information',
     fieldName: 'Full Name',
     sectionPost: 'Post',

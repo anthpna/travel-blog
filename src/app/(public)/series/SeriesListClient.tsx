@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import { useLang } from '@/contexts/LanguageContext'
 
 interface SeriesItem {
@@ -32,16 +32,15 @@ export default function SeriesListClient({ allSeries }: { allSeries: SeriesItem[
               className="group flex flex-col rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white"
             >
               <div className="relative aspect-[16/9] bg-gray-100">
-                {s.coverImage ? (
-                  <Image
-                    src={s.coverImage}
-                    alt={s.titleVi}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100" />
-                )}
+                {/* SafeImage: coverImage nhap tay -> chong loi 400 INVALID_IMAGE_OPTIMIZE_REQUEST */}
+                <SafeImage
+                  src={s.coverImage}
+                  alt={s.titleVi}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  fallback={<div className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100" />}
+                />
               </div>
               <div className="p-4">
                 <h2 className="font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">

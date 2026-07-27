@@ -1,5 +1,6 @@
 import { getSession } from '@/lib/get-session'
 import { redirect } from 'next/navigation'
+import { SITE_ADMIN_TITLE } from '@/config/site'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession()
@@ -8,7 +9,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-        <span className="font-bold text-gray-900">Blog-Trip Admin</span>
+        <span className="font-bold text-gray-900">{SITE_ADMIN_TITLE}</span>
         <div className="flex gap-4 text-sm">
           <a href="/admin" className="text-gray-600 hover:text-gray-900">Dashboard</a>
           <a href="/admin/posts" className="text-gray-600 hover:text-gray-900">Bài viết</a>

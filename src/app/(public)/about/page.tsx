@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
 import type { DestinationPin } from '@/components/map/DestinationMap'
 import AboutContent from './AboutContent'
+import { SITE_NAME } from '@/config/site'
 
 export const metadata: Metadata = {
-  title: 'Về tác giả — Blog Trip',
+  title: `Về tác giả — ${SITE_NAME}`,
   description: 'Phan Thanh An — sinh năm 1993, chia sẻ hành trình và cảm xúc qua những chuyến đi.',
 }
 

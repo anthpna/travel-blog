@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLang } from '@/contexts/LanguageContext'
+import { SITE_NAME } from '@/config/site'
 
 export default function Navbar() {
   const { t, lang, setLang } = useLang()
@@ -21,7 +22,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-slate-800 border-b border-slate-700">
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
         <Link href="/" className="font-bold text-lg tracking-tight text-white shrink-0">
-          Blog Trip
+          {SITE_NAME}
         </Link>
 
         <div className="hidden md:flex items-center gap-1 flex-1">

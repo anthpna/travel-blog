@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import prisma from '@/lib/prisma'
 import LanguageToggle from '@/components/blog/LanguageToggle'
 import ShareButtons from '@/components/blog/ShareButtons'
@@ -98,7 +98,7 @@ export default async function PostPage({ params }: PageProps) {
       {/* Cover */}
       {post.coverImage && (
         <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-10 shadow-md">
-          <Image src={post.coverImage} alt={post.titleVi} fill className="object-cover" priority />
+          <SafeImage src={post.coverImage} alt={post.titleVi} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover" priority />
         </div>
       )}
 

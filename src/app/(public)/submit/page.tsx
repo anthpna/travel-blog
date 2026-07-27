@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import SubmitForm from './SubmitForm'
+import { SITE_NAME } from '@/config/site'
 
 export const metadata: Metadata = {
-  title: 'Gửi bài viết — Blog Trip',
-  description: 'Chia sẻ hành trình của bạn với cộng đồng Blog Trip.',
+  title: `Gửi bài viết — ${SITE_NAME}`,
+  description: `Chia sẻ hành trình của bạn với cộng đồng ${SITE_NAME}.`,
 }
 
 export default function SubmitPage() {

@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import type { JSONContent } from '@tiptap/core'
+import ImageUploadField from '@/components/admin/ImageUploadField'
 
 const TiptapEditor = dynamic(() => import('@/components/editor/TiptapEditor'), { ssr: false })
 
@@ -63,7 +64,6 @@ export default function PostForm({ initialData }: PostFormProps) {
   const [seriesList, setSeriesList] = useState<Series[]>([])
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
-  const [coverUploading, setCoverUploading] = useState(false)
 
   useEffect(() => {
     fetch('/api/destinations').then((r) => r.json()).then(setDestinations)
@@ -72,20 +72,6 @@ export default function PostForm({ initialData }: PostFormProps) {
 
   const set = (key: keyof PostFormData, value: unknown) =>
     setForm((prev) => ({ ...prev, [key]: value }))
-
-  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setCoverUploading(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('bucket', 'post-images')
-    const res = await fetch('/api/upload', { method: 'POST', body: fd })
-    const { url } = await res.json()
-    set('coverImage', url)
-    setCoverUploading(false)
-    e.target.value = ''
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -158,22 +144,12 @@ export default function PostForm({ initialData }: PostFormProps) {
         />
       </div>
 
-      <div className="space-y-1">
-        <Label>Ảnh bìa</Label>
-        <div className="flex items-center gap-3">
-          {form.coverImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={form.coverImage} alt="cover" className="h-16 w-24 object-cover rounded" />
-          )}
-          <label className="cursor-pointer px-3 py-2 text-sm border rounded bg-white hover:bg-gray-50 text-gray-700">
-            {coverUploading ? 'Đang upload...' : 'Chọn ảnh'}
-            <input type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} disabled={coverUploading} />
-          </label>
-          {form.coverImage && (
-            <button type="button" onClick={() => set('coverImage', '')} className="text-sm text-red-500 hover:underline">Xóa ảnh</button>
-          )}
-        </div>
-      </div>
+      {/* Dung chung component upload voi form Destination / Series */}
+      <ImageUploadField
+        label="Ảnh bìa"
+        value={form.coverImage || null}
+        onChange={(coverImage) => set('coverImage', coverImage ?? '')}
+      />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="space-y-1">

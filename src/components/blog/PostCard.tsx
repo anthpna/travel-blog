@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import SafeImage from '@/components/ui/SafeImage'
 import { useLang } from '@/contexts/LanguageContext'
 import { getTagColor } from '@/lib/tag-colors'
 
@@ -72,17 +72,15 @@ export default function PostCard({ post, size = 'default' }: PostCardProps) {
     <article className="group flex flex-col bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden h-full">
       {/* Cover image */}
       <Link href={`/posts/${post.slug}`} className={`block overflow-hidden ${imageAspect[size]} bg-gray-100 relative shrink-0`}>
-        {post.coverImage ? (
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out"
-            sizes={imageSizes[size]}
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200" />
-        )}
+        {/* SafeImage: tu dong xu ly URL anh ngoai allowlist + fallback khi anh chet */}
+        <SafeImage
+          src={post.coverImage}
+          alt={title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out"
+          sizes={imageSizes[size]}
+        />
+
         {post.featured && (
           <span className="absolute top-2 left-2 text-xs font-semibold bg-amber-400 text-amber-900 px-2 py-0.5 rounded-full">
             Featured

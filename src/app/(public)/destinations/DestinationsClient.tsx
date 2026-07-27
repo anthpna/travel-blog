@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import dynamic from 'next/dynamic'
+import SafeImage from '@/components/ui/SafeImage'
 import { useLang } from '@/contexts/LanguageContext'
 import type { DestinationPin } from '@/components/map/DestinationMap'
 
@@ -71,18 +71,20 @@ export default function DestinationsClient({ destinations }: { destinations: Des
                 className="group flex flex-col rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white"
               >
                 <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
-                  {dest.coverImage ? (
-                    <Image
-                      src={dest.coverImage}
-                      alt={dest.nameVi}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-                      <span className="text-4xl select-none">🗺️</span>
-                    </div>
-                  )}
+                  {/* SafeImage: coverImage do admin dan URL tu do -> tu dong ha cap
+                      sang unoptimized neu host ngoai allowlist (tranh loi 400 tren Vercel) */}
+                  <SafeImage
+                    src={dest.coverImage}
+                    alt={dest.nameVi}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    fallback={
+                      <div className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                        <span className="text-4xl select-none">🗺️</span>
+                      </div>
+                    }
+                  />
                 </div>
 
                 <div className="p-4">

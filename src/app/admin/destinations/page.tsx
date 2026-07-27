@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import ImageUploadField from '@/components/admin/ImageUploadField'
 
 type Destination = {
   id: string
@@ -183,10 +184,12 @@ export default function AdminDestinationsPage() {
               </div>
             </div>
 
-            <div className="space-y-1">
-              <Label>URL ảnh bìa</Label>
-              <Input value={form.coverImage ?? ''} onChange={f('coverImage')} placeholder="https://..." />
-            </div>
+            {/* Uu tien tai anh len storage cua site; van cho dan URL de tuong thich nguoc */}
+            <ImageUploadField
+              label="Ảnh bìa"
+              value={form.coverImage}
+              onChange={(coverImage) => setForm((prev) => ({ ...prev, coverImage }))}
+            />
           </div>
 
           <div className="flex gap-2 mt-2">

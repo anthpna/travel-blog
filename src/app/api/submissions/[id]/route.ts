@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import prisma from '@/lib/prisma'
+import { getDisplayUrl } from '@/lib/image-upload'
 
 export async function PUT(
   req: NextRequest,
@@ -41,5 +42,9 @@ export async function GET(
 
   if (!submission) return NextResponse.json({ error: 'Không tìm thấy' }, { status: 404 })
 
-  return NextResponse.json(submission)
+  // `coverImage` cua submission nam o bucket PRIVATE (dang `storage://...`) nen khong
+  // render truc tiep duoc. Sinh them `coverImageUrl` (signed, co han) cho admin xem.
+  const coverImageUrl = await getDisplayUrl(submission.coverImage)
+
+  return NextResponse.json({ ...submission, coverImageUrl })
 }

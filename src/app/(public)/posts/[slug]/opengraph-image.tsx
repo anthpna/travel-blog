@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og'
 import prisma from '@/lib/prisma'
+import { SITE_NAME, SITE_AUTHOR } from '@/config/site'
 
 export const runtime = 'nodejs'
 export const revalidate = 3600
@@ -16,8 +17,8 @@ export default async function PostOGImage({ params }: Props) {
     select: { titleVi: true, excerptVi: true, coverImage: true },
   })
 
-  const title = post?.titleVi ?? 'Blog Trip'
-  const excerpt = post?.excerptVi ?? 'Phan Thanh An'
+  const title = post?.titleVi ?? SITE_NAME
+  const excerpt = post?.excerptVi ?? SITE_AUTHOR
 
   return new ImageResponse(
     (
@@ -64,7 +65,7 @@ export default async function PostOGImage({ params }: Props) {
               marginBottom: 16,
             }}
           >
-            Blog Trip · Phan Thanh An
+            {SITE_NAME} · {SITE_AUTHOR}
           </div>
           <div
             style={{
